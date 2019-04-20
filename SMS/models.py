@@ -6,4 +6,4 @@ class Person1(models.Model):
     LastName = models.CharField(max_length = 30)
     Email = models.EmailField()
     DateOfBirth = models.DateField()
-    Contact = models.IntegerField(max_length = 30, default='0')
+    #Contact = models.IntegerField(max_length = 30, default='0')
