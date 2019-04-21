@@ -5,8 +5,11 @@ from . import views
 app_name = 'SMS'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('about/', views.about, name='about'),
+    path('about/', views.about, name='About'),
     path('student/', views.student, name = 'student'),
+    path('articles/', views.articles, name = 'Articles'),
+    path('contact_us/', views.contact_us, name = 'Contact_Us'),
+    path('sitemaps/', views.site_map, name = 'Sitemaps'),
     path('StudentTimeTable/', views.view_student_timetable, name ='ViewTimeTableSudent'),
     path('AcademicDetail/', views.view_student_academic_detail, name = 'StudentAcademicDetail'),
     path('ViewDateSheet/' , views.view_date_sheet ,name = 'ViewDateSheet'),

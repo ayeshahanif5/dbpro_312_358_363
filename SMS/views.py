@@ -5,6 +5,16 @@ from django.shortcuts import get_object_or_404, render,redirect
 def index(request):
     return render(request, 'SMS/index.html')
 
+def articles(request):
+    return render(request, 'SMS/articles.html')
+
+def contact_us(request):
+    return render(request, 'SMS/contact-us.html')
+
+def site_map(request):
+    return render(request, 'SMS/sitemap.html')
+
+
 def about(request):
     return render(request, 'SMS/about-us.html')
 
