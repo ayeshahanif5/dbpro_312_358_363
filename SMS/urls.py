@@ -19,5 +19,11 @@ urlpatterns = [
     path('UploadStudentAssignment/' , views.upload_student_assignment ,name = 'UploadStudentAssignment'),
     path('ViewStudentFee/' , views.view_student_fee ,name = 'ViewStudentFee'),
 
-    path('teacher/', views.teacher_dashboard, name = 'Teacher')
+    path('teacher/', views.teacher_dashboard, name = 'Teacher'),
+    path('teacher_timetabe/', views.teacher_timetable, name = 'TeacherTimeTable'),
+    path('teacher_assignments/', views.teacher_upload_assignments, name = 'TeacherAssignments'),
+    path('teacher_attendance/', views.teacher_attendance, name = 'TeacherAttendance'),
+    path('teacher_payroll/', views.teacher_payroll, name = 'TeacherPayroll'),
+    path('teacher_request/', views.teacher_request, name = 'TeacherRequest'),
+    path('teacher_result/', views.teacher_result, name = 'TeacherResult'),
 ]

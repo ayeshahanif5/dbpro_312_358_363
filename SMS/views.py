@@ -22,7 +22,6 @@ def student(request):
     return render(request, 'SMS/AcademicDetail.html')
 
 def login(request):
-        incorrect_password = False
         if request.method == 'POST':
                 print ("logged")
                 name = request.POST.get('inputEmail')
@@ -37,7 +36,7 @@ def login(request):
                         incorrect_password = True
                         return render(request,'sms/login.html', {'incorrectPassword' :incorrect_password})
         else:
-                return render(request,'sms/login.html', {'incorrectPassword' :incorrect_password})
+                return render(request,'sms/login.html')
     
     
 
@@ -68,3 +67,27 @@ def view_student_fee(request):
 
 def teacher_dashboard(request):
         return render(request, 'SMS/indexT.html')
+
+def teacher_upload_assignments(request):
+        return render(request, 'SMS/AssignmentsT.html')
+
+
+def teacher_attendance(request):
+        return render(request, 'SMS/AttendanceT.html')
+
+
+def teacher_payroll(request):
+        return render(request, 'SMS/payroll.html')
+
+
+def teacher_request(request):
+        return render(request, 'SMS/Request.html')
+
+def teacher_result(request):
+        return render(request, 'SMS/ResultT.html')
+
+def teacher_timetable(request):
+        return render(request, 'SMS/TimetableT.html')
+        
+        
+        
