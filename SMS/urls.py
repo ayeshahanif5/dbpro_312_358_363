@@ -10,6 +10,7 @@ urlpatterns = [
     path('articles/', views.articles, name = 'Articles'),
     path('contact_us/', views.contact_us, name = 'Contact_Us'),
     path('sitemaps/', views.site_map, name = 'Sitemaps'),
+    path('login/', views.login , name = 'Login'),
     path('StudentTimeTable/', views.view_student_timetable, name ='ViewTimeTableSudent'),
     path('AcademicDetail/', views.view_student_academic_detail, name = 'StudentAcademicDetail'),
     path('ViewDateSheet/' , views.view_date_sheet ,name = 'ViewDateSheet'),
@@ -17,4 +18,6 @@ urlpatterns = [
     path('SendStudentRequest/' , views.send_student_request ,name = 'SendStudentRequest'),
     path('UploadStudentAssignment/' , views.upload_student_assignment ,name = 'UploadStudentAssignment'),
     path('ViewStudentFee/' , views.view_student_fee ,name = 'ViewStudentFee'),
+
+    path('teacher/', views.teacher_dashboard, name = 'Teacher')
 ]

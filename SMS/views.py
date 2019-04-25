@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render,redirect
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 def index(request):
@@ -14,12 +15,34 @@ def contact_us(request):
 def site_map(request):
     return render(request, 'SMS/sitemap.html')
 
-
 def about(request):
     return render(request, 'SMS/about-us.html')
 
 def student(request):
     return render(request, 'SMS/AcademicDetail.html')
+
+def login(request):
+        incorrect_password = False
+        if request.method == 'POST':
+                print ("logged")
+                name = request.POST.get('inputEmail')
+                password = request.POST.get('inputPassword')
+                print (name)
+                print (password)
+                if name == 's@s.com' and password == '1234':
+                        return redirect('/sms/student/' )
+                elif name == 't@t.com' and password == '1234':
+                        return redirect('/sms/teacher/' )
+                else:
+                        incorrect_password = True
+                        return render(request,'sms/login.html', {'incorrectPassword' :incorrect_password})
+        else:
+                return render(request,'sms/login.html', {'incorrectPassword' :incorrect_password})
+    
+    
+
+
+    
 
 def view_student_timetable(request):
     return render(request, 'SMS/TimeTable.html')
@@ -41,3 +64,7 @@ def upload_student_assignment(request):
 
 def view_student_fee(request):
     return render(request, 'SMS/Fee.html')
+
+
+def teacher_dashboard(request):
+        return render(request, 'SMS/indexT.html')
