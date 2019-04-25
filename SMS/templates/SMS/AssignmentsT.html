@@ -1,4 +1,6 @@
-
+{% extends "SMS/base.html" %}
+{% block content %}
+{% load static %}
     <div class="container">
       <h1><a href="#">Teacher's site</a></h1>
       <nav>
@@ -15,9 +17,7 @@
                    
         </ul>
       </nav>
-    </div>
-
-<h2>Assignments <span>Detail</span></h2>
+      <h2>Assignments <span>Detail</span></h2>
 <form id="contacts-form" action="#">
   <fieldset>
     <div class="field">
@@ -30,3 +30,7 @@
     
 </fieldset>
 </form>
+</div>
+
+
+{% endblock %}
