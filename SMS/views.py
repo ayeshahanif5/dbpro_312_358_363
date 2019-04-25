@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponseRedirect
+from .models import Person,Student
 # Create your views here.
 
 def index(request):
@@ -29,6 +30,7 @@ def login(request):
                 print (name)
                 print (password)
                 if name == 's@s.com' and password == '1234':
+                        student = Person.objects.get()
                         return redirect('/sms/student/' )
                 elif name == 't@t.com' and password == '1234':
                         return redirect('/sms/teacher/' )
@@ -89,5 +91,12 @@ def teacher_result(request):
 def teacher_timetable(request):
         return render(request, 'SMS/TimetableT.html')
         
+
+ 
+
+
+       
+    
+           
         
         
