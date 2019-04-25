@@ -26,4 +26,5 @@ urlpatterns = [
     path('teacher_payroll/', views.teacher_payroll, name = 'TeacherPayroll'),
     path('teacher_request/', views.teacher_request, name = 'TeacherRequest'),
     path('teacher_result/', views.teacher_result, name = 'TeacherResult'),
+    path('teacher_DateSheet/', views.teacher_DateSheet, name = 'TeacherDateSheet'),
 ]

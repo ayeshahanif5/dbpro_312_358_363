@@ -83,13 +83,16 @@ def teacher_payroll(request):
 
 
 def teacher_request(request):
-        return render(request, 'SMS/Request.html')
+        return render(request, 'SMS/RequestT.html')
 
 def teacher_result(request):
         return render(request, 'SMS/ResultT.html')
 
 def teacher_timetable(request):
         return render(request, 'SMS/TimetableT.html')
+
+def teacher_DateSheet(request):
+        return render(request, 'SMS/DateSheetT.html')
         
 
  
