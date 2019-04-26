@@ -67,7 +67,7 @@ class Classcourses(models.Model):
 class Classes(models.Model):
     id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=50)  # Field name made lowercase.
-    monthly_fee = models.IntegerField(db_column='Fee')  # Field name made lowercase.
+    fee = models.IntegerField(db_column='Fee')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -98,7 +98,7 @@ class Datesheet(models.Model):
 class Fee(models.Model):
     challanid = models.AutoField(db_column='ChallanId', primary_key=True)  # Field name made lowercase.
     studentid = models.ForeignKey('Student', models.DO_NOTHING, db_column='StudentId')  # Field name made lowercase.
-    classid = models.ForeignKey(Classes, models.DO_NOTHING, db_column='ClassId')  # Field name made lowercase.
+    classid = models.ForeignKey(Classes, models.DO_NOTHING, db_column='ClassId', related_name= '+')  # Field name made lowercase.
     duedate = models.DateField(db_column='DueDate')  # Field name made lowercase.
 
     class Meta:
@@ -110,6 +110,7 @@ class Login(models.Model):
     personid = models.ForeignKey('Person', models.DO_NOTHING, db_column='PersonId')  # Field name made lowercase.
     username = models.CharField(db_column='UserName', primary_key=True, max_length=50)  # Field name made lowercase.
     password = models.CharField(db_column='Password', max_length=50)  # Field name made lowercase.
+    role = models.CharField(db_column='Role', max_length=50)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -155,7 +156,7 @@ class Result(models.Model):
 class Salary(models.Model):
     id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     teacherid = models.ForeignKey('Teacher', models.DO_NOTHING, db_column='TeacherId')  # Field name made lowercase.
-    assignsalaryid = models.ForeignKey(Assignsalary, models.DO_NOTHING, db_column='AssignSalaryId', related_name='+')  # Field name made lowercase.
+    assignsalaryid = models.ForeignKey(Assignsalary, models.DO_NOTHING, db_column='AssignSalaryId', related_name= '+')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -175,8 +176,7 @@ class Section(models.Model):
 
 
 class Student(models.Model):
-    
-    student_id = models.ForeignKey(Person, models.DO_NOTHING, db_column='Id', primary_key=True)  # Field name made lowercase.
+    id = models.ForeignKey(Person, models.DO_NOTHING, db_column='Id', primary_key=True, related_name= '+')  # Field name made lowercase.
     registrationno = models.CharField(db_column='RegistrationNo', max_length=50)  # Field name made lowercase.
 
     class Meta:
@@ -194,7 +194,7 @@ class Studentsection(models.Model):
 
 
 class Teacher(models.Model):
-    id = models.IntegerField(db_column='Id', primary_key=True)  # Field name made lowercase.
+    id = models.ForeignKey(Person, models.DO_NOTHING, db_column='Id', primary_key=True, related_name= '+')  # Field name made lowercase.
     designation = models.CharField(db_column='Designation', max_length=50)  # Field name made lowercase.
 
     class Meta:

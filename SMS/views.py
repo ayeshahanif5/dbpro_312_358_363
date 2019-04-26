@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponseRedirect
-from .models import Person,Student
+from .models import Person, Student, Login
 # Create your views here.
 
 def index(request):
@@ -28,22 +28,21 @@ def login(request):
                 name = request.POST.get('inputEmail')
                 password = request.POST.get('inputPassword')
                 print (name)
-                print (password)
-                if name == 's@s.com' and password == '1234':
-                        student = Person.objects.get()
-                        return redirect('/sms/student/' )
+                print (password)try:
+        
+    return render(request, 'polls/detail.html', {'poll': p})
+                current_user = get_object_or_404(Login, username = name)
+                if current_user.username == name and current_user.password == password:
+                        if current_user.Role == 'Student':
+                                return redirect('/sms/student/' + name )
+                        
                 elif name == 't@t.com' and password == '1234':
                         return redirect('/sms/teacher/' )
                 else:
                         incorrect_password = True
                         return render(request,'sms/login.html', {'incorrectPassword' :incorrect_password})
         else:
-                return render(request,'sms/login.html')
-    
-    
-
-
-    
+                return render(request,'sms/login.html')  
 
 def view_student_timetable(request):
     return render(request, 'SMS/TimeTable.html')
@@ -83,23 +82,13 @@ def teacher_payroll(request):
 
 
 def teacher_request(request):
-        return render(request, 'SMS/RequestT.html')
+        return render(request, 'SMS/Request.html')
 
 def teacher_result(request):
         return render(request, 'SMS/ResultT.html')
 
 def teacher_timetable(request):
         return render(request, 'SMS/TimetableT.html')
-
-def teacher_DateSheet(request):
-        return render(request, 'SMS/DateSheetT.html')
         
-
- 
-
-
-       
-    
-           
         
         

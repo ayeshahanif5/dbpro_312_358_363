@@ -6,7 +6,7 @@ app_name = 'SMS'
 urlpatterns = [
     path('', views.index, name='index'),
     path('about/', views.about, name='About'),
-    path('student/', views.student, name = 'student'),
+    path('student/<int:username>', views.student, name = 'student'),
     path('articles/', views.articles, name = 'Articles'),
     path('contact_us/', views.contact_us, name = 'Contact_Us'),
     path('sitemaps/', views.site_map, name = 'Sitemaps'),
@@ -26,5 +26,4 @@ urlpatterns = [
     path('teacher_payroll/', views.teacher_payroll, name = 'TeacherPayroll'),
     path('teacher_request/', views.teacher_request, name = 'TeacherRequest'),
     path('teacher_result/', views.teacher_result, name = 'TeacherResult'),
-    path('teacher_DateSheet/', views.teacher_DateSheet, name = 'TeacherDateSheet'),
 ]
