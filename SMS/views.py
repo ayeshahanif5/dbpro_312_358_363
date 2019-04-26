@@ -28,9 +28,7 @@ def login(request):
                 name = request.POST.get('inputEmail')
                 password = request.POST.get('inputPassword')
                 print (name)
-                print (password)try:
-        
-    return render(request, 'polls/detail.html', {'poll': p})
+                print (password)
                 current_user = get_object_or_404(Login, username = name)
                 if current_user.username == name and current_user.password == password:
                         if current_user.Role == 'Student':
