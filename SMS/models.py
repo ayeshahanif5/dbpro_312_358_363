@@ -68,7 +68,8 @@ class Classes(models.Model):
     id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=50)  # Field name made lowercase.
     fee = models.IntegerField(db_column='Fee')  # Field name made lowercase.
-
+    def __str__(self):
+        return self.name
     class Meta:
         managed = False
         db_table = 'Classes'
@@ -97,9 +98,11 @@ class Datesheet(models.Model):
 
 class Fee(models.Model):
     challanid = models.AutoField(db_column='ChallanId', primary_key=True)  # Field name made lowercase.
-    studentid = models.ForeignKey('Student', models.DO_NOTHING, db_column='StudentId')  # Field name made lowercase.
+    month = models.CharField(max_length = 8, db_column = 'Month')  # Field name made lowercase.
     classid = models.ForeignKey(Classes, models.DO_NOTHING, db_column='ClassId', related_name= '+')  # Field name made lowercase.
     duedate = models.DateField(db_column='DueDate')  # Field name made lowercase.
+    def __str__(self):
+        return str(self.challanid)
 
     class Meta:
         managed = False
@@ -125,6 +128,8 @@ class Person(models.Model):
     email = models.CharField(db_column='Email', max_length=50, blank=True, null=True)  # Field name made lowercase.
     dateofbirth = models.DateTimeField(db_column='DateOfBirth')  # Field name made lowercase.
     gender = models.BooleanField(db_column='Gender')  # Field name made lowercase.
+    def __str__(self):
+        return self.firstname + " " + self.lastname
 
     class Meta:
         managed = False
@@ -139,7 +144,8 @@ class Request(models.Model):
     class Meta:
         managed = False
         db_table = 'Request'
-
+    def __str__(self):
+        return self.description
 
 class Result(models.Model):
     id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
@@ -151,7 +157,8 @@ class Result(models.Model):
     class Meta:
         managed = False
         db_table = 'Result'
-
+    def __str__(self):
+        return self.evaluationname
 
 class Salary(models.Model):
     id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
@@ -179,6 +186,8 @@ class Student(models.Model):
     id = models.ForeignKey(Person, models.DO_NOTHING, db_column='Id', primary_key=True, related_name= '+')  # Field name made lowercase.
     registrationno = models.CharField(db_column='RegistrationNo', max_length=50)  # Field name made lowercase.
 
+    def __str__(self):
+        return self.registrationno
     class Meta:
         managed = False
         db_table = 'Student'
@@ -196,7 +205,7 @@ class Studentsection(models.Model):
 class Teacher(models.Model):
     id = models.ForeignKey(Person, models.DO_NOTHING, db_column='Id', primary_key=True, related_name= '+')  # Field name made lowercase.
     designation = models.CharField(db_column='Designation', max_length=50)  # Field name made lowercase.
-
+    
     class Meta:
         managed = False
         db_table = 'Teacher'

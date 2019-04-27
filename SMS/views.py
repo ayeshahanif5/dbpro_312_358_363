@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponseRedirect
-from .models import Person, Student, Login
+from .models import Person, Student, Login, Request
 # Create your views here.
 
 def index(request):
@@ -29,13 +29,15 @@ def login(request):
                 password = request.POST.get('inputPassword')
                 print (name)
                 print (password)
+                """
                 current_user = get_object_or_404(Login, username = name)
                 if current_user.username == name and current_user.password == password:
                         if current_user.Role == 'Student':
                                 return redirect('/sms/student/' + name )
+                                """
                         
-                elif name == 't@t.com' and password == '1234':
-                        return redirect('/sms/teacher/' )
+                if name == 't@t.com' and password == '1234':
+                        return redirect('/sms/student/' )
                 else:
                         incorrect_password = True
                         return render(request,'sms/login.html', {'incorrectPassword' :incorrect_password})
@@ -80,13 +82,20 @@ def teacher_payroll(request):
 
 
 def teacher_request(request):
-        return render(request, 'SMS/Request.html')
+        if request.method == 'POST':
+                description = request.POST.get('Description')
+                new_request = Request(personid = 1, description = description)
+                new_request.save()
+                return render(request, 'SMS/teacher') 
+
+
+        else:
+                return render(request, 'SMS/Request.html') 
+        
+        
 
 def teacher_result(request):
         return render(request, 'SMS/ResultT.html')
 
 def teacher_timetable(request):
-        return render(request, 'SMS/TimetableT.html')
-        
-        
-        
+        return render(request, 'SMS/TimetableT.html')     
