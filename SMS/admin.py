@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db import models
 # Register your models here.
 from .models import Classes, Section
-from .models import Person, Student, Teacher, Request, Fee
+from .models import Person, Student, Teacher, Request, Fee, Salary, Classcourses
 
 
 
@@ -33,6 +33,18 @@ class FeeAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(Fee,FeeAdmin)
+
+class SalaryAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Salary,SalaryAdmin)
+
+class CourseAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Classcourses,ClassAdmin)
+
+
 """
 class myClassAdmin(admin.ModelAdmin):
     def get_model_perms(self, request):
