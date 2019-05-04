@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db import models
 # Register your models here.
 from .models import Classes, Section
-from .models import Person, Student, Teacher, Request, Fee, Salary, Classcourses
+from .models import Person, Student, Teacher, Request, Fee, Salary, Classcourses, Datesheet
 
 
 
@@ -39,7 +39,10 @@ class SalaryAdmin(admin.ModelAdmin):
 
 admin.site.register(Salary,SalaryAdmin)
 
+class DatesheetAdmin(admin.ModelAdmin):
+    pass
 
+admin.site.register(Datesheet,DatesheetAdmin)
 """
 class myClassAdmin(admin.ModelAdmin):
     def get_model_perms(self, request):

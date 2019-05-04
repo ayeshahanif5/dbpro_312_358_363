@@ -1,5 +1,9 @@
 from django.db import models
+from django.http import HttpResponse
+from django.views.generic import View
 
+
+from SMS.utils import render_to_pdf
 
 class Assigncourse(models.Model):
     id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
@@ -102,9 +106,7 @@ class Fee(models.Model):
     classid = models.ForeignKey(Classes, models.DO_NOTHING, db_column='ClassId', related_name= '+')  # Field name made lowercase.
     duedate = models.DateField(db_column='DueDate')  # Field name made lowercase.
     def __str__(self):
-        if self.month == None:
-            self.month = "N/A"
-        return str(self.classid) + " "  + self.month
+        return str(self.challanid)
 
     class Meta:
         managed = False
@@ -218,7 +220,36 @@ class Timetable(models.Model):
     datetime = models.DateTimeField(db_column='DateTime')  # Field name made lowercase.
     assigncourseid = models.ForeignKey(Assigncourse, models.DO_NOTHING, db_column='AssignCourseId')  # Field name made lowercase.
     sectionid = models.ForeignKey(Section, models.DO_NOTHING, db_column='SectionId')  # Field name made lowercase.
-    
+
     class Meta:
         managed = False
         db_table = 'TimeTable'
+
+class GeneratePDF(View):
+    def get(self, request, *args, **kwargs):
+        template = get_template('invoice.html')
+        context = {
+            "fee_id": 123,
+            "Registration Number": "2016cs363",
+            "amount": 3000,
+            "today": "Today",
+        }
+        html = template.render(context)
+        pdf = render_to_pdf('invoice.html', context)
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            filename = "Invoice_%s.pdf" %("12341231")
+            content = "inline; filename='%s'" %(filename)
+            download = request.GET.get("download")
+            if download:
+                content = "attachment; filename='%s'" %(filename)
+            response['Content-Disposition'] = content
+            return response
+        return HttpResponse("Not found")
+        
+        class Meta:
+            managed= False
+            db_table ='Fee'
+
+
+       
