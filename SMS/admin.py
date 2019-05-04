@@ -2,10 +2,10 @@ from django.contrib import admin
 from django.db import models
 # Register your models here.
 from .models import Classes, Section
-from .models import Person, Student, Teacher, Request, Fee, Salary, Classcourses, Datesheet
+from .models import Person, Student, Teacher, Request, Fee, Salary,Classcourses, Datesheet, Studentsection
 
 
-
+admin.site.site_header = 'School Management System'
 
 class StudentAdmin(admin.StackedInline):
     model = Student
@@ -43,6 +43,15 @@ class DatesheetAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(Datesheet,DatesheetAdmin)
+
+class CourseAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Classcourses,CourseAdmin)
+
+class StudentsectionAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Studentsection,StudentsectionAdmin)
 """
 class myClassAdmin(admin.ModelAdmin):
     def get_model_perms(self, request):
