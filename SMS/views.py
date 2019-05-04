@@ -2,10 +2,20 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponseRedirect
 from .models import Person, Student, Login, Request
+from django.db import connection
+
 # Create your views here.
 
 def index(request):
-    return render(request, 'SMS/index.html')
+        cursor = connection.cursor()
+        result_set = ""
+        try:
+                cursor.execute('EXEC prDateSheetio @Id =1')
+                result_set = cursor.fetchall()
+        finally:
+                cursor.close()
+        print (result_set)
+        return render(request, 'SMS/index.html')
 
 def articles(request):
     return render(request, 'SMS/articles.html')
@@ -20,8 +30,10 @@ def about(request):
     return render(request, 'SMS/about-us.html')
 
 def student(request, student_id):
-        
-        return render(request, 'SMS/AcademicDetail.html', {'StudentId' : student_id})
+        curr_Person = Person.objects.get(id = student_id)
+        curr_Student = Student.objects.get(id = curr_Person)
+        RegNo = curr_Student.registrationno
+        return render(request, 'SMS/AcademicDetail.html', {'StudentId' : student_id, 'RegNo': RegNo})
 
 def login(request):
         incorrect_password = True
@@ -31,35 +43,21 @@ def login(request):
                 password = request.POST.get('inputPassword')
                 print (name)
                 print (password)
+                if name == "admin@a.com" and password == "1234":
+                        return redirect('/admin/')
+                else :
+                        try :   
+                                current_user = Login.objects.get(username = name, password = password)
+                                if current_user.role == 'Student':
+                                        return redirect('/sms/student/' + str(current_user.personid.id) )
+                                elif current_user.role == 'Teacher':
+                                        return redirect('/sms/teacher/' + str(current_user.personid.id))
+                                else:
+                                        return redirect('/admin/')
+                        except:
+                                incorrect_password = True
+                                return render(request,'sms/login.html', {'incorrectPassword' :incorrect_password})
                 
-                """
-                current_user = get_object_or_404(Login, username = name)
-                """
-                try :
-                        current_user = Login.objects.get(username = name, password = password)
-                        if current_user.role == 'Student':
-                                return redirect('/sms/student/' + str(current_user.personid.id) )
-                        else :
-                                return redirect('/sms/teacher/' + str(current_user.personid.id))
-                except:
-                        incorrect_password = True
-                        return render(request,'sms/login.html', {'incorrectPassword' :incorrect_password})
-                """
-                if current_user != None :
-
-                else:
-
-                if current_user.username == name and current_user.password == password:
-                        if current_user.Role == 'Student':
-                                return redirect('/sms/student/' + name )
-                                
-                        
-                if name == 't@t.com' and password == '1234':
-                        return redirect('/sms/student/' )
-                else:
-                        incorrect_password = True
-                        return render(request,'sms/login.html', {'incorrectPassword' :incorrect_password})
-                        """
         else:
                 return render(request,'sms/login.html', {'incorrectPassword' :incorrect_password})  
         
@@ -71,6 +69,8 @@ def view_student_academic_detail(request, student_id):
         curr_Person = Person.objects.get(id = student_id)
         curr_Student = Student.objects.get(id = curr_Person)
         RegNo = curr_Student.registrationno
+        print("fghjk")
+        print(RegNo)
         return render(request, 'SMS/AcademicDetail.html', {'StudentId' : student_id, 'RegNo': RegNo})
 
 def view_date_sheet(request, student_id):
