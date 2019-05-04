@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.views.generic import View
 from django.template.loader import get_template
 from .utils import render_to_pdf
+from .models import Teacher
 #import io
 #from django.http import FileResponse
 #from reportlab.pdfgen import canvas
@@ -119,7 +120,12 @@ def GeneratePDF(request):
 
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
-    p.drawString(100, 100, "Hello world.")
+    #for a in Teacher.objects.raw('SELECT * FROM Teacher'):
+            #print(a)
+    people = Teacher.objects.raw('SELECT * FROM Teacher')
+
+      
+    p.drawString(100, 100,people)
     
 
     # Close the PDF object cleanly.
