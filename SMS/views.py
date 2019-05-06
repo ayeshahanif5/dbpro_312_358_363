@@ -1,8 +1,23 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponseRedirect
-from .models import Person, Student, Login, Request
-from django.db import connection
+from .models import Person,Student
+from django.http import HttpResponse
+from django.views.generic import View
+from django.template.loader import get_template
+from .utils import render_to_pdf
+from .models import Teacher
+#import io
+#from django.http import FileResponse
+#from reportlab.pdfgen import canvas
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
+
 
 # Create your views here.
 
@@ -151,3 +166,36 @@ def teacher_timetable(request,teacher_id):
 
 def teacher_result(request,teacher_id):
         return render(request, 'SMS/ResultT.html', {'TeacherId' : teacher_id})
+
+#def GeneratePDF(request):
+def GeneratePDF(request):#self, request, #*args, #**kwargs):
+        template = get_template('SMS/invoice.html')
+        context = {
+               # for p in Person.objects.raw('SELECT * FROM SMS_Person'):
+                       # print(p)
+
+
+                
+                      
+
+
+                
+
+               "fee_id": 123,
+        "Registration Number": "2016cs363",
+                #"amount": 3000,
+                 #"today": "Today",
+                }
+        html = template.render(context)
+        pdf = render_to_pdf('SMS/invoice.html', context)
+        if pdf:
+                response = HttpResponse(pdf, content_type='application/pdf')
+                filename = "Invoice_%s.pdf" %("12341231")
+                content = "inline; filename='%s'" %(filename)
+                download = request.GET.get("download")
+                if download:
+                        content = "attachment; filename='%s'" %(filename)
+                response['Content-Disposition'] = content
+                return response
+        return HttpResponse("Not found")
+         

@@ -26,4 +26,5 @@ urlpatterns = [
     path('teacher/<int:teacher_id>/payroll/', views.teacher_payroll, name = 'TeacherPayroll'),
     path('teacher/<int:teacher_id>/request/', views.teacher_request, name = 'TeacherRequest'),
     path('teacher/<int:teacher_id>/result/', views.teacher_result, name = 'TeacherResult'),
+    path('GeneratePDF/', views.GeneratePDF, name = 'FeeChallan'),
 ]

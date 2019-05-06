@@ -1,4 +1,9 @@
 from django.db import models
+from django.http import HttpResponse
+from django.views.generic import View
+
+
+from SMS.utils import render_to_pdf
 
 
 class Assigncourse(models.Model):
@@ -231,3 +236,13 @@ class Timetable(models.Model):
     class Meta:
         managed = False
         db_table = 'TimeTable'
+    
+class GeneratePDF(View):
+    for p in Person.objects.raw('SELECT * FROM Person'):
+        print(p)
+    
+    
+        
+    class Meta:
+        managed= False
+        db_table ='Person'
