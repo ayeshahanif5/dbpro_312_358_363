@@ -1,9 +1,5 @@
 from django.db import models
-from django.http import HttpResponse
-from django.views.generic import View
 
-
-from SMS.utils import render_to_pdf
 
 class Assigncourse(models.Model):
     id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
@@ -62,7 +58,8 @@ class Classcourses(models.Model):
     id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     classid = models.ForeignKey('Classes', models.DO_NOTHING, db_column='ClassId')  # Field name made lowercase.
     courseid = models.ForeignKey('Courses', models.DO_NOTHING, db_column='CourseId')  # Field name made lowercase.
-
+    def __str__(self):
+        return self.courseid.name + "  :  " + self.classid.name
     class Meta:
         managed = False
         db_table = 'ClassCourses'
@@ -83,7 +80,8 @@ class Courses(models.Model):
     id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     coursecode = models.CharField(db_column='CourseCode', max_length=50)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=50, blank=True, null=True)  # Field name made lowercase.
-
+    def __str__(self):
+        return self.name
     class Meta:
         managed = False
         db_table = 'Courses'
@@ -94,7 +92,8 @@ class Datesheet(models.Model):
     classid = models.ForeignKey(Classes, models.DO_NOTHING, db_column='ClassId')  # Field name made lowercase.
     courseid = models.ForeignKey(Courses, models.DO_NOTHING, db_column='CourseId')  # Field name made lowercase.
     date = models.DateTimeField(db_column='Date')  # Field name made lowercase.
-
+    def __str__(self):
+        return self.classid.name + "  :  " + self.courseid.name
     class Meta:
         managed = False
         db_table = 'DateSheet'
@@ -106,7 +105,9 @@ class Fee(models.Model):
     classid = models.ForeignKey(Classes, models.DO_NOTHING, db_column='ClassId', related_name= '+')  # Field name made lowercase.
     duedate = models.DateField(db_column='DueDate')  # Field name made lowercase.
     def __str__(self):
-        return str(self.challanid)
+        if self.month == None:
+            self.month = "N/A"
+        return str(self.classid) + " "  + self.month
 
     class Meta:
         managed = False
@@ -131,7 +132,11 @@ class Person(models.Model):
     contact = models.CharField(db_column='Contact', max_length=50, blank=True, null=True)  # Field name made lowercase.
     email = models.CharField(db_column='Email', max_length=50, blank=True, null=True)  # Field name made lowercase.
     dateofbirth = models.DateTimeField(db_column='DateOfBirth')  # Field name made lowercase.
-    gender = models.BooleanField(db_column='Gender')  # Field name made lowercase.
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, db_column='Gender')
     def __str__(self):
         return self.firstname + " " + self.lastname
 
@@ -198,9 +203,10 @@ class Student(models.Model):
 
 
 class Studentsection(models.Model):
-    studentid = models.IntegerField(db_column='StudentId', primary_key=True)  # Field name made lowercase.
+    studentid = models.ForeignKey(Student, models.DO_NOTHING, db_column='StudentId', primary_key=True)  # Field name made lowercase.
     sectionid = models.ForeignKey(Section, models.DO_NOTHING, db_column='SectionId')  # Field name made lowercase.
-
+    def __str__(self):
+        return self.studentid.registrationno + "   :   " + self.sectionid.classid.name + " " + self.sectionid.name
     class Meta:
         managed = False
         db_table = 'StudentSection'
@@ -209,7 +215,8 @@ class Studentsection(models.Model):
 class Teacher(models.Model):
     id = models.ForeignKey(Person, models.DO_NOTHING, db_column='Id', primary_key=True, related_name= '+')  # Field name made lowercase.
     designation = models.CharField(db_column='Designation', max_length=50)  # Field name made lowercase.
-    
+    def __str__(self):
+        return self.id.firstname + " " + self.id.lastname
     class Meta:
         managed = False
         db_table = 'Teacher'
@@ -220,36 +227,7 @@ class Timetable(models.Model):
     datetime = models.DateTimeField(db_column='DateTime')  # Field name made lowercase.
     assigncourseid = models.ForeignKey(Assigncourse, models.DO_NOTHING, db_column='AssignCourseId')  # Field name made lowercase.
     sectionid = models.ForeignKey(Section, models.DO_NOTHING, db_column='SectionId')  # Field name made lowercase.
-
+    
     class Meta:
         managed = False
         db_table = 'TimeTable'
-
-class GeneratePDF(View):
-    def get(self, request, *args, **kwargs):
-        template = get_template('invoice.html')
-        context = {
-            "fee_id": 123,
-            "Registration Number": "2016cs363",
-            "amount": 3000,
-            "today": "Today",
-        }
-        html = template.render(context)
-        pdf = render_to_pdf('invoice.html', context)
-        if pdf:
-            response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "Invoice_%s.pdf" %("12341231")
-            content = "inline; filename='%s'" %(filename)
-            download = request.GET.get("download")
-            if download:
-                content = "attachment; filename='%s'" %(filename)
-            response['Content-Disposition'] = content
-            return response
-        return HttpResponse("Not found")
-        
-        class Meta:
-            managed= False
-            db_table ='Fee'
-
-
-       
